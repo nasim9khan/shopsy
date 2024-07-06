@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import "./ProductStyle.css";
+import "./ProductStyle.css"
 import { useCart } from "../components/CartContext";
 
 function Products({ setCartCount, searchQuery }) {

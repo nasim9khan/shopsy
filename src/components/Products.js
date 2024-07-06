@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import Style from "./ProductStyle.css";
-import {useCart} from "../components/CartContext";
+import "./ProductStyle.css";
+import { useCart } from "../components/CartContext";
 
 function Products({ setCartCount, searchQuery }) {
   const [products, setProducts] = useState([]);
   const [addedProducts, setAddedProducts] = useState([]);
-  const { addProductToCart } = useCart(); 
+  const { addProductToCart } = useCart();
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -15,11 +15,14 @@ function Products({ setCartCount, searchQuery }) {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const addToCart = (productId) => {
-    if (!addedProducts.includes(productId)) {
-      setAddedProducts(prevAddedProducts => [...prevAddedProducts, productId]);
+  const handleAddToCart = (product) => {
+    if (!addedProducts.includes(product.id)) {
+      addProductToCart(product);
+      setAddedProducts(prevAddedProducts => [...prevAddedProducts, product.id]);
       setCartCount(prevCount => prevCount + 1);
       toast.success('Item added', { autoClose: 1000 });
+    } else {
+      toast.info('Item already in cart', { autoClose: 1000 });
     }
   };
 
@@ -34,7 +37,7 @@ function Products({ setCartCount, searchQuery }) {
           <img
             src={product.image}
             className="card-img-top"
-            alt="image"
+            alt={product.title}
             style={{ width: '200px', height: '200px' }}
           />
           <div className="card-body">
@@ -42,10 +45,10 @@ function Products({ setCartCount, searchQuery }) {
             <p className="card-text">{product.description ? product.description.slice(0, 50) : 'No Description'}...</p>
             <div className="d-flex justify-content-between">
               <button className="btn btn-outline-secondary">
-                BuyNow
+                Buy Now
               </button>
-              <button className="btn btn-outline-secondary" onClick={() => { addProductToCart(product); toast.success('Item added', { autoClose: 1000 }); }}>
-                AddToCart
+              <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product)}>
+                Add to Cart
               </button>
             </div>
           </div>

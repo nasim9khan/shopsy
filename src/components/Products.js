@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import "./ProductStyle.css"
+import "./ProductStyle.css";
 import { useCart } from "../components/CartContext";
 
 function Products({ setCartCount, searchQuery }) {
@@ -31,14 +31,13 @@ function Products({ setCartCount, searchQuery }) {
   );
 
   return (
-    <div className="product-card-container d-flex flex-row flex-wrap">
+    <div className="product-card-container">
       {filteredProducts.map(product => (
-        <div className="card mt-1 pt-1" key={product.id}>
+        <div className="card" key={product.id}>
           <img
             src={product.image}
             className="card-img-top"
             alt={product.title}
-            style={{ width: '200px', height: '200px' }}
           />
           <div className="card-body">
             <h5 className="card-title">{product.title ? product.title.slice(0, 15) : 'No Title'}...</h5>
